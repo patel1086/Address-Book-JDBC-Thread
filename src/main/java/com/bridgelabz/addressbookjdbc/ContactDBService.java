@@ -82,6 +82,17 @@ public class ContactDBService {
 		}
 		return contactList;
 	}
+
+	public int updateCityByFirstName(String name, String city) {
+		String sql=String.format("update address_book set city='%s' where first_name='%s'",city,name);
+		try(Connection connection=getConnection();){
+			Statement statement=connection.createStatement();
+			return statement.executeUpdate(sql);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }
 
 	

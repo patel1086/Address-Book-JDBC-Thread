@@ -30,5 +30,12 @@ public class ContactServiceTest {
 		contactList = contactService.findContactUsingPreparedByCity("Jodhpur");
 		Assert.assertEquals(1, contactList.size());
 	}
+	
+	@Test
+	public void updateCityName_ShouldUpdateDB() {
+		ContactService contactService = new ContactService();
+		int result=contactService.updateCityByFirstName("Ram","Ajmer");
+		Assert.assertEquals(1, result);
+	}
 
 }

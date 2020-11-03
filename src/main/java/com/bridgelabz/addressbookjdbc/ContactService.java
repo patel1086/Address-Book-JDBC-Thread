@@ -17,4 +17,8 @@ public class ContactService {
 		return new ContactDBService().findContactUsingPreparedByCityName(city);
 	}
 
+	public int updateCityByFirstName(String name, String city) {
+		return new ContactDBService().updateCityByFirstName(name,city);
+	}
+
 }
