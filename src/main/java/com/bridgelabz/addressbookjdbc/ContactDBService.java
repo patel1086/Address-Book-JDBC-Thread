@@ -26,28 +26,44 @@ public class ContactDBService {
 		return connection;
 	}
 
-	public ArrayList<Contact> readData() {
-		ArrayList<Contact> contactList=new ArrayList<>();
+	public List<Contact> readData() {
+		List<Contact> contactList=new ArrayList<>();
 		String sql="Select * from address_book";
 		try(Connection connection=getConnection();){
 			Statement statement=connection.createStatement();
 			ResultSet resultSet=statement.executeQuery(sql);
-			while(resultSet.next()) {
-				String firstName=resultSet.getString("first_name");
-				String lastName=resultSet.getString("last_name");
-				String type=resultSet.getString("type");
-				String address=resultSet.getString("address");
-				String city=resultSet.getString("city");
-				String state=resultSet.getString("state");
-				String zip=resultSet.getString("ZIP");
-				String number=resultSet.getString("phone_number");
-				String email=resultSet.getString("email");
-				contactList.add(new Contact(firstName,lastName,type,address,city,state,zip,number,email));
-			}
-			
-			
+			contactList=getAddressBookData(resultSet);
 		}catch(SQLException e) {
 			e.printStackTrace();
+		}
+		return contactList;
+	}
+
+	public List<Contact> findContactByCityName(String city) {
+		List<Contact> contactList=new ArrayList<>();
+		String sql=String.format("Select * from address_book where city='%s';",city);
+		try(Connection connection=getConnection();){
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery(sql);
+			contactList=getAddressBookData(resultSet);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return contactList;
+	}
+	public static List<Contact> getAddressBookData(ResultSet resultSet) throws SQLException{
+		List<Contact> contactList=new ArrayList<>();
+		while(resultSet.next()) {
+			String firstName=resultSet.getString("first_name");
+			String lastName=resultSet.getString("last_name");
+			String type=resultSet.getString("type");
+			String address=resultSet.getString("address");
+			String city=resultSet.getString("city");
+			String state=resultSet.getString("state");
+			String zip=resultSet.getString("ZIP");
+			String number=resultSet.getString("phone_number");
+			String email=resultSet.getString("email");
+			contactList.add(new Contact(firstName,lastName,type,address,city,state,zip,number,email));
 		}
 		return contactList;
 	}
