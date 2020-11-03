@@ -26,7 +26,11 @@ public class ContactService {
 		return new ContactDBService().updateCityByFirstNameUsingPrepared(name,city);
 	}
 
-	public List<Contact> getContactBetweenDateRange(String date1, LocalDate date2) {
+	public List<Contact> getContactBetweenDateRange(String date1, String date2) {
+		return new ContactDBService().getContactBetweenDateRange(date1,date2);
+	}
+
+	public List<Contact> getContactBetweenDateRangeUsingPrepared(String date1, String date2) {
 		return new ContactDBService().getContactBetweenDateRange(date1,date2);
 	}
 

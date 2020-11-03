@@ -50,7 +50,15 @@ public class ContactServiceTest {
 	public void givenDateRange_ShouldReturnContactList() {
 		ContactService contactService = new ContactService();
 		List<Contact> contactList = new ArrayList<Contact>();
-		contactList = contactService.getContactBetweenDateRange("2020-05-05",LocalDate.now());
+		contactList = contactService.getContactBetweenDateRange("2020-05-05","2020-11-02");
+		Assert.assertEquals(2, contactList.size());
+	}
+	
+	@Test
+	public void givenDateRange_UsingPreParedStatement_ShouldReturnContactList() {
+		ContactService contactService = new ContactService();
+		List<Contact> contactList = new ArrayList<Contact>();
+		contactList = contactService.getContactBetweenDateRangeUsingPrepared("2020-05-05","2020-11-02");
 		Assert.assertEquals(2, contactList.size());
 	}
 

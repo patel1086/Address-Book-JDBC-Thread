@@ -110,12 +110,27 @@ public class ContactDBService {
 		return 0;
 	}
 
-	public List<Contact> getContactBetweenDateRange(String date1, LocalDate date2) {
+	public List<Contact> getContactBetweenDateRange(String date1, String date2) {
 		List<Contact> contactList=new ArrayList<>();
 		String sql=String.format("Select * from address_book where date between '%s' and '%s'",date1,date2);
 		try(Connection connection=getConnection();){
 			Statement statement=connection.createStatement();
 			ResultSet resultSet=statement.executeQuery(sql);
+			contactList=getAddressBookData(resultSet);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return contactList;
+	}
+
+	public List<Contact> getContactBetweenDateRangeUsingPrepared(String date1, String date2) {
+		List<Contact> contactList=new ArrayList<>();
+		String sql=String.format("Select * from address_book where date between ? and ?");
+		try(Connection connection=getConnection();){
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setString(1,date1);
+			pst.setString(2,date2);
+			ResultSet resultSet=pst.executeQuery();
 			contactList=getAddressBookData(resultSet);
 		}catch(SQLException e) {
 			e.printStackTrace();
