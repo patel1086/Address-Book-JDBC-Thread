@@ -1,5 +1,6 @@
 package com.bridgelabz.addressbookjdbc;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +44,14 @@ public class ContactServiceTest {
 		ContactService contactService = new ContactService();
 		int result=contactService.updateCityByFirstNameUsingPrepared("Ram","Jaipur");
 		Assert.assertEquals(1, result);
+	}
+	
+	@Test
+	public void givenDateRange_ShouldReturnContactList() {
+		ContactService contactService = new ContactService();
+		List<Contact> contactList = new ArrayList<Contact>();
+		contactList = contactService.getContactBetweenDateRange("2020-05-05",LocalDate.now());
+		Assert.assertEquals(2, contactList.size());
 	}
 
 }

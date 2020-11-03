@@ -1,5 +1,6 @@
 package com.bridgelabz.addressbookjdbc;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,10 @@ public class ContactService {
 
 	public int updateCityByFirstNameUsingPrepared(String name, String city) {
 		return new ContactDBService().updateCityByFirstNameUsingPrepared(name,city);
+	}
+
+	public List<Contact> getContactBetweenDateRange(String date1, LocalDate date2) {
+		return new ContactDBService().getContactBetweenDateRange(date1,date2);
 	}
 
 }

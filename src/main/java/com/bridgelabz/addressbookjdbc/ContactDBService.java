@@ -1,12 +1,14 @@
 package com.bridgelabz.addressbookjdbc;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -64,7 +66,8 @@ public class ContactDBService {
 			String zip=resultSet.getString("ZIP");
 			String number=resultSet.getString("phone_number");
 			String email=resultSet.getString("email");
-			contactList.add(new Contact(firstName,lastName,type,address,city,state,zip,number,email));
+			LocalDate date=resultSet.getDate("date").toLocalDate();
+			contactList.add(new Contact(firstName,lastName,type,address,city,state,zip,number,email,date));
 		}
 		return contactList;
 	}
@@ -105,6 +108,19 @@ public class ContactDBService {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	public List<Contact> getContactBetweenDateRange(String date1, LocalDate date2) {
+		List<Contact> contactList=new ArrayList<>();
+		String sql=String.format("Select * from address_book where date between '%s' and '%s'",date1,date2);
+		try(Connection connection=getConnection();){
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery(sql);
+			contactList=getAddressBookData(resultSet);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return contactList;
 	}
 }
 
