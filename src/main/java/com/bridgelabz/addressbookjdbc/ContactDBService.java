@@ -3,6 +3,7 @@ package com.bridgelabz.addressbookjdbc;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -64,6 +65,20 @@ public class ContactDBService {
 			String number=resultSet.getString("phone_number");
 			String email=resultSet.getString("email");
 			contactList.add(new Contact(firstName,lastName,type,address,city,state,zip,number,email));
+		}
+		return contactList;
+	}
+
+	public List<Contact> findContactUsingPreparedByCityName(String city) {
+		List<Contact> contactList=new ArrayList<>();
+		String sql=String.format("Select * from address_book where city=?");
+		try(Connection connection=getConnection();){
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setString(1,city);
+			ResultSet resultSet=pst.executeQuery();
+			contactList=getAddressBookData(resultSet);
+		}catch(SQLException e) {
+			e.printStackTrace();
 		}
 		return contactList;
 	}

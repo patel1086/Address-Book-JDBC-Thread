@@ -13,4 +13,8 @@ public class ContactService {
 		return new ContactDBService().findContactByCityName(city);
 	}
 
+	public List<Contact> findContactUsingPreparedByCity(String city) {
+		return new ContactDBService().findContactUsingPreparedByCityName(city);
+	}
+
 }

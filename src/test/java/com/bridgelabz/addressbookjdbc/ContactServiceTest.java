@@ -22,5 +22,13 @@ public class ContactServiceTest {
 		contactList = contactService.findContactByCity("Jodhpur");
 		Assert.assertEquals(1, contactList.size());
 	}
+	
+	@Test
+	public void givenCityName_UsingPreParedStatement_ShouldReturnAllContact() {
+		ContactService contactService = new ContactService();
+		List<Contact> contactList = new ArrayList<Contact>();
+		contactList = contactService.findContactUsingPreparedByCity("Jodhpur");
+		Assert.assertEquals(1, contactList.size());
+	}
 
 }
