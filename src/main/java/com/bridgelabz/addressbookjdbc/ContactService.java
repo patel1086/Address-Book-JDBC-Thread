@@ -21,4 +21,8 @@ public class ContactService {
 		return new ContactDBService().updateCityByFirstName(name,city);
 	}
 
+	public int updateCityByFirstNameUsingPrepared(String name, String city) {
+		return new ContactDBService().updateCityByFirstNameUsingPrepared(name,city);
+	}
+
 }

@@ -93,6 +93,19 @@ public class ContactDBService {
 		}
 		return 0;
 	}
+
+	public int updateCityByFirstNameUsingPrepared(String name, String city) {
+		String sql=String.format("update address_book set city=? where first_name=?");
+		try(Connection connection=getConnection();){
+			PreparedStatement pst=connection.prepareStatement(sql);
+			pst.setString(1,city);
+			pst.setString(2,name);
+			return pst.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }
 
 	
