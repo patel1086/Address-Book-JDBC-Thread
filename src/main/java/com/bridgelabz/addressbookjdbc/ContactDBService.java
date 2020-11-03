@@ -5,7 +5,10 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 public class ContactDBService {
 	private static Connection getConnection() {
@@ -22,19 +25,31 @@ public class ContactDBService {
 		}
 		return connection;
 	}
-	
-	public static void main(String[] args) {
-		String sql="select * from address_book";
-		try (Connection connection = getConnection();) {
-			java.sql.Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
+
+	public ArrayList<Contact> readData() {
+		ArrayList<Contact> contactList=new ArrayList<>();
+		String sql="Select * from address_book";
+		try(Connection connection=getConnection();){
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery(sql);
 			while(resultSet.next()) {
-				String name=resultSet.getString("first_name");
-				System.out.println("1 "+name);
+				String firstName=resultSet.getString("first_name");
+				String lastName=resultSet.getString("last_name");
+				String type=resultSet.getString("type");
+				String address=resultSet.getString("address");
+				String city=resultSet.getString("city");
+				String state=resultSet.getString("state");
+				String zip=resultSet.getString("ZIP");
+				String number=resultSet.getString("phone_number");
+				String email=resultSet.getString("email");
+				contactList.add(new Contact(firstName,lastName,type,address,city,state,zip,number,email));
 			}
-		} catch (SQLException e) {
+			
+			
+		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		return contactList;
 	}
 }
 
