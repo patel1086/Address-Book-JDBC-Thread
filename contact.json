@@ -35,23 +35,6 @@
       "id": 2
     },
     {
-      "firstname": "Champak",
-      "lastname": "Lal",
-      "type": "Family",
-      "address": "Radhepur",
-      "city": "Banswara",
-      "state": "Rajasthan",
-      "zip": "175983",
-      "number": "9829998639",
-      "email": "champak@gmail.com",
-      "date": {
-        "year": 2020,
-        "month": 11,
-        "day": 6
-      },
-      "id": 3
-    },
-    {
       "firstname": "Bhanu",
       "lastname": "Parsad",
       "type": "Brother",

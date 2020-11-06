@@ -7,20 +7,20 @@ import java.util.List;
 import java.util.Map;
 
 public class ContactService {
-	
+
 	public ArrayList<Contact> contactList;
 
-	public ContactService(ArrayList<Contact> arrayList) {
+	public ContactService(ArrayList<Contact> contactList) {
 		this();
-		this.contactList=arrayList;
+		this.contactList = contactList;
 	}
-	
+
 	public enum IOService {
 		CONSOLE_IO, FILE_IO, DB_IO, REST_IO
 	}
 
 	public ContactService() {
-		
+
 	}
 
 	public List<Contact> readData() {
@@ -35,9 +35,9 @@ public class ContactService {
 		return new ContactDBService().findContactUsingPreparedByCityName(city);
 	}
 
-	public void updateCityByFirstName(String name, String city,IOService ioService) {
+	public void updateCityByFirstName(String name, String city, IOService ioService) {
 		if (ioService.equals(IOService.DB_IO)) {
-			int result = new ContactDBService().updateCityByFirstName(name,city);
+			int result = new ContactDBService().updateCityByFirstName(name, city);
 			if (result == 0)
 				return;
 		}
@@ -45,35 +45,35 @@ public class ContactService {
 		if (contact != null)
 			contact.city = city;
 	}
+
 	public Contact getContactData(String name) {
-		return this.contactList.stream()
-				.filter(contactData -> contactData.firstname.equals(name)).findFirst().orElse(null);
+		return this.contactList.stream().filter(contactData -> contactData.firstname.equals(name)).findFirst()
+				.orElse(null);
 	}
 
 	public int updateCityByFirstNameUsingPrepared(String name, String city) {
-		return new ContactDBService().updateCityByFirstNameUsingPrepared(name,city);
+		return new ContactDBService().updateCityByFirstNameUsingPrepared(name, city);
 	}
 
 	public List<Contact> getContactBetweenDateRange(String date1, String date2) {
-		return new ContactDBService().getContactBetweenDateRange(date1,date2);
+		return new ContactDBService().getContactBetweenDateRange(date1, date2);
 	}
 
 	public List<Contact> getContactBetweenDateRangeUsingPrepared(String date1, String date2) {
-		return new ContactDBService().getContactBetweenDateRange(date1,date2);
+		return new ContactDBService().getContactBetweenDateRange(date1, date2);
 	}
 
 	public void addContact(List<Contact> contactList) {
-		contactList.forEach(contact->{
-			this.addContact(contact.firstname,contact.lastname,contact.type,contact.address,contact.city,contact.state,
-					contact.zip,contact.number,contact.email,contact.date);
+		contactList.forEach(contact -> {
+			this.addContact(contact.firstname, contact.lastname, contact.type, contact.address, contact.city,
+					contact.state, contact.zip, contact.number, contact.email, contact.date);
 		});
-		
+
 	}
 
 	private void addContact(String firstname, String lastname, String type, String address, String city, String state,
-			String zip, String number, String email,LocalDate date) 
-	{
-		new ContactDBService().addContact(firstname,lastname,type,address,city,state,zip,number,email,date);
+			String zip, String number, String email, LocalDate date) {
+		new ContactDBService().addContact(firstname, lastname, type, address, city, state, zip, number, email, date);
 	}
 
 	public int countEntries() {
@@ -85,12 +85,11 @@ public class ContactService {
 
 	public void addContactWithThreads(List<Contact> contactList) {
 		Map<Integer, Boolean> contactAdditionStatus = new HashMap<>();
-		contactList.forEach(contact->{
-			Runnable task=()->{
+		contactList.forEach(contact -> {
+			Runnable task = () -> {
 				contactAdditionStatus.put(contact.hashCode(), false);
 				System.out.println("Contact Being Added: " + Thread.currentThread().getName());
-				this.addContact(contact.firstname,contact.lastname,contact.type,contact.address,contact.city,contact.state,
-					contact.zip,contact.number,contact.email,contact.date);
+				this.addContact(contact.firstname, contact.lastname, contact.type, contact.address, contact.city,contact.state, contact.zip, contact.number, contact.email, contact.date);
 				contactAdditionStatus.put(contact.hashCode(), true);
 				System.out.println("Contact Added: " + Thread.currentThread().getName());
 			};
@@ -108,11 +107,11 @@ public class ContactService {
 
 	public void updateContactWithThreads(List<Contact> contactList) {
 		Map<Integer, Boolean> contactUpdateStatus = new HashMap<>();
-		contactList.forEach(contact->{
-			Runnable task=()->{
+		contactList.forEach(contact -> {
+			Runnable task = () -> {
 				contactUpdateStatus.put(contact.hashCode(), false);
 				System.out.println("Contact city Being Updated: " + Thread.currentThread().getName());
-				this.updateCityByFirstName(contact.firstname,contact.city);
+				this.updateCityByFirstName(contact.firstname, contact.city);
 				contactUpdateStatus.put(contact.hashCode(), true);
 				System.out.println("Contact city updated: " + Thread.currentThread().getName());
 			};
@@ -126,37 +125,38 @@ public class ContactService {
 
 			}
 		}
-		
+
 	}
 
 	public int updateCityByFirstName(String name, String city) {
-		return new ContactDBService().updateCityByFirstName(name,city);
-		
+		return new ContactDBService().updateCityByFirstName(name, city);
+
 	}
 
 	public boolean checkEmployeePayrollInSyncWithDB(String firstname) {
-		ContactDBService contactDBService=new ContactDBService();
+		ContactDBService contactDBService = new ContactDBService();
 		List<Contact> contactList = new ArrayList<>();
-		contactList=contactDBService.getContactData(firstname);
-		return contactList.get(0).firstname
-				.equals(contactDBService.getContactData(firstname).get(0).firstname);
-		
+		contactList = contactDBService.getContactData(firstname);
+		return contactList.get(0).firstname.equals(contactDBService.getContactData(firstname).get(0).firstname);
+
 	}
 
 	public long countEntries(IOService iOService) {
-		if(iOService.equals(IOService.REST_IO))
+		if (iOService.equals(IOService.REST_IO))
 			return contactList.size();
 		return 0;
 	}
 
 	public void addContact(Contact contact, IOService iOService) {
 		if (iOService.equals(IOService.DB_IO)) {
-			new ContactDBService().addContact(contact.firstname,contact.lastname,contact.type,contact.address,contact.city,contact.state,
-					contact.zip,contact.number,contact.email,contact.date);
+			new ContactDBService().addContact(contact.firstname, contact.lastname, contact.type, contact.address,
+					contact.city, contact.state, contact.zip, contact.number, contact.email, contact.date);
 		} else
 			contactList.add(contact);
 	}
-		
+
+	public void deleteContact(String firstname) {
+		Contact contact = this.getContactData(firstname);
+		contactList.remove(contact);
+	}
 }
-
-

@@ -16,17 +16,17 @@ public class Contact {
 	public String id;
 
 	// constructor
-	public Contact(String firstname, String lastname,String type, String address, String city, String state, String zip,String number, String email,LocalDate date) {
+	public Contact(String firstname, String lastname, String type, String address, String city, String state,String zip, String number, String email, LocalDate date) {
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.type=type;
+		this.type = type;
 		this.address = address;
 		this.city = city;
 		this.state = state;
 		this.zip = zip;
 		this.number = number;
 		this.email = email;
-		this.date=date;
+		this.date = date;
 	}
 
 	public Contact(String firstname, String city) {
