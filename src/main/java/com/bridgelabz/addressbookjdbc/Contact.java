@@ -13,6 +13,7 @@ public class Contact {
 	public String number;
 	public String email;
 	public LocalDate date;
+	public String id;
 
 	// constructor
 	public Contact(String firstname, String lastname,String type, String address, String city, String state, String zip,String number, String email,LocalDate date) {

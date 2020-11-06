@@ -35,8 +35,19 @@ public class ContactService {
 		return new ContactDBService().findContactUsingPreparedByCityName(city);
 	}
 
-	public int updateCityByFirstName(String name, String city) {
-		return new ContactDBService().updateCityByFirstName(name,city);
+	public void updateCityByFirstName(String name, String city,IOService ioService) {
+		if (ioService.equals(IOService.DB_IO)) {
+			int result = new ContactDBService().updateCityByFirstName(name,city);
+			if (result == 0)
+				return;
+		}
+		Contact contact = this.getContactData(name);
+		if (contact != null)
+			contact.city = city;
+	}
+	public Contact getContactData(String name) {
+		return this.contactList.stream()
+				.filter(contactData -> contactData.firstname.equals(name)).findFirst().orElse(null);
 	}
 
 	public int updateCityByFirstNameUsingPrepared(String name, String city) {
@@ -115,6 +126,11 @@ public class ContactService {
 
 			}
 		}
+		
+	}
+
+	public int updateCityByFirstName(String name, String city) {
+		return new ContactDBService().updateCityByFirstName(name,city);
 		
 	}
 

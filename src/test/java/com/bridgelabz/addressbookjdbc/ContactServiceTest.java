@@ -192,6 +192,23 @@ public class ContactServiceTest {
 		Assert.assertEquals(5, entries);
 	}
 	
+	@Test
+	public void givenNewCityForContact_WhenUpdated_ShouldMatch200Response() {
+		Contact[] arrayOfContact = getContactList();
+		ContactService contactService;
+		contactService = new ContactService(
+				new ArrayList<Contact>(Arrays.asList(arrayOfContact)));
+		contactService.updateCityByFirstName("David", "Jaipur", ContactService.IOService.REST_IO);
+		Contact contact = contactService.getContactData("David");
+		String contactJSon = new Gson().toJson(contact);
+		RequestSpecification request = RestAssured.given();
+		request.header("Content-Type", "application/json");
+		request.body(contactJSon);
+		Response response = request.put("/contacts/" + contact.id);
+		int statusCode = response.getStatusCode();
+		Assert.assertEquals(200, statusCode);
+	}
+	
 
 	
 
