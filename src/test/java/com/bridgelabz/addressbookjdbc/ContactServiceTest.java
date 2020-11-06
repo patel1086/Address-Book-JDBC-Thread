@@ -1,7 +1,10 @@
 package com.bridgelabz.addressbookjdbc;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
@@ -60,6 +63,20 @@ public class ContactServiceTest {
 		List<Contact> contactList = new ArrayList<Contact>();
 		contactList = contactService.getContactBetweenDateRangeUsingPrepared("2020-05-05","2020-11-02");
 		Assert.assertEquals(2, contactList.size());
+	}
+	
+	@Test
+	public void givenMultipleContact_WhenAddedToDB_ShouldMatchUpContactEntries() {
+		Contact[] arrayOfContact= {new Contact("Amar","Parsad","Brother","Pavta","Ajmer","Rajasthan","142016","9636718081","amar@gmail.com",LocalDate.now()),
+				new Contact("Bhanu","Parsad","Brother","Suryanagar","Bikaner","Rajasthan","163516","9636373538","bhanu@gmail.com",LocalDate.now())
+		};
+		ContactService contactService= new ContactService();
+		contactService.readData();
+		Instant start = Instant.now();
+		contactService.addContact(Arrays.asList(arrayOfContact));
+		Instant end = Instant.now();
+		System.out.println("Duration without thread: " + Duration.between(start, end));
+		Assert.assertEquals(6, contactService.countEntries());
 	}
 
 }

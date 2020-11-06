@@ -137,6 +137,17 @@ public class ContactDBService {
 		}
 		return contactList;
 	}
+
+	public void addContact(String firstname, String lastname, String type, String address, String city,
+			String state, String zip, String number, String email, LocalDate date) {
+		String sql=String.format("Insert into address_book(first_name,last_name,type,address,city,state,ZIP,phone_number,email,date) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');",firstname,lastname,type,address,city,state,zip,number,email,Date.valueOf(date));
+		try(Connection connection=getConnection();){
+			Statement statement=connection.createStatement();
+			statement.executeUpdate(sql);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
 
 	
