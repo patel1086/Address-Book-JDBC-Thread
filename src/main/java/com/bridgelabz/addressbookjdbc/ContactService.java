@@ -66,7 +66,7 @@ public class ContactService {
 				this.addContact(contact.firstname,contact.lastname,contact.type,contact.address,contact.city,contact.state,
 					contact.zip,contact.number,contact.email,contact.date);
 				contactAdditionStatus.put(contact.hashCode(), true);
-				System.out.println("Contact Being Added: " + Thread.currentThread().getName());
+				System.out.println("Contact Added: " + Thread.currentThread().getName());
 			};
 			Thread thread = new Thread(task, contact.firstname);
 			thread.start();
@@ -78,6 +78,38 @@ public class ContactService {
 
 			}
 		}
+	}
+
+	public void updateContactWithThreads(List<Contact> contactList) {
+		Map<Integer, Boolean> contactUpdateStatus = new HashMap<>();
+		contactList.forEach(contact->{
+			Runnable task=()->{
+				contactUpdateStatus.put(contact.hashCode(), false);
+				System.out.println("Contact city Being Updated: " + Thread.currentThread().getName());
+				this.updateCityByFirstName(contact.firstname,contact.city);
+				contactUpdateStatus.put(contact.hashCode(), true);
+				System.out.println("Contact city updated: " + Thread.currentThread().getName());
+			};
+			Thread thread = new Thread(task, contact.firstname);
+			thread.start();
+		});
+		while (contactUpdateStatus.containsValue(false)) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+
+			}
+		}
+		
+	}
+
+	public boolean checkEmployeePayrollInSyncWithDB(String firstname) {
+		ContactDBService contactDBService=new ContactDBService();
+		List<Contact> contactList = new ArrayList<>();
+		contactList=contactDBService.getContactData(firstname);
+		return contactList.get(0).firstname
+				.equals(contactDBService.getContactData(firstname).get(0).firstname);
+		
 	}
 
 }

@@ -148,6 +148,19 @@ public class ContactDBService {
 			e.printStackTrace();
 		}
 	}
+
+	public List<Contact> getContactData(String firstname) {
+		String sql=String.format("Select * from address_book where first_name='%s';" , firstname);
+		List<Contact> contactList=new ArrayList<>();
+		try(Connection connection=getConnection();){
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery(sql);
+			contactList=getAddressBookData(resultSet);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return contactList;
+	}
 }
 
 	
