@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 
 public class ContactServiceTest {
@@ -137,6 +138,14 @@ public class ContactServiceTest {
 		return arrayOfContacts;
 	}
 	
+	private Response addEmployeeToJsonServer(Contact contact) {
+		String empJson = new Gson().toJson(contact);
+		RequestSpecification request = RestAssured.given();
+		request.header("Content-Type", "application/json");
+		request.body(empJson);
+		return request.post("/contacts");
+	}
+	
 	@Test
 	public void giveEmployeeDataInJSONServer_WhenRetrieved_ShouldMatchTheCount() {
 		Contact[] arrayOfContacts = getContactList();
@@ -146,5 +155,23 @@ public class ContactServiceTest {
 		long entries = employeePayrollService.countEntries(ContactService.IOService.REST_IO);
 		Assert.assertEquals(1, entries);
 	}
+	
+	@Test
+	public void givenNewEmployee_WhenAdded_ShouldMatch201ResponseAndCount() {
+		Contact[] arrayOfEmps = getContactList();
+		ContactService contactService;
+		contactService = new ContactService(
+				new ArrayList<Contact>(Arrays.asList(arrayOfEmps)));
+		Contact contact = new Contact("Amar","Parsad","Brother","Pavta","Ajmer","Rajasthan","142016","9636718081","amar@gmail.com",LocalDate.now());
+		Response response = addEmployeeToJsonServer(contact);
+		int statusCode = response.getStatusCode();
+		Assert.assertEquals(201, statusCode);
+		contact = new Gson().fromJson(response.asString(), Contact.class);
+		contactService.addContact(contact, ContactService.IOService.REST_IO);
+		long entries = contactService.countEntries(ContactService.IOService.REST_IO);
+		Assert.assertEquals(2, entries);
+	}
+
+	
 
 }

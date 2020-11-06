@@ -133,4 +133,14 @@ public class ContactService {
 		return 0;
 	}
 
+	public void addContact(Contact contact, IOService iOService) {
+		if (iOService.equals(IOService.DB_IO)) {
+			new ContactDBService().addContact(contact.firstname,contact.lastname,contact.type,contact.address,contact.city,contact.state,
+					contact.zip,contact.number,contact.email,contact.date);
+		} else
+			contactList.add(contact);
+	}
+		
 }
+
+

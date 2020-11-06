@@ -4,19 +4,35 @@
       "id": 1,
       "firstname": "David",
       "lastname": "Milar",
-      "type":"brother",
-      "address":"Rayta Nagar",
-      "city":"Udaipur",
-      "state":"Rajasthan",
-      "zip":"234567",
-      "number":"9636638082",
-      "email":"david@gmail.com",
+      "type": "brother",
+      "address": "Rayta Nagar",
+      "city": "Udaipur",
+      "state": "Rajasthan",
+      "zip": "234567",
+      "number": "9636638082",
+      "email": "david@gmail.com",
       "date": {
         "year": 2020,
         "month": 11,
         "day": 5
       }
+    },
+    {
+      "firstname": "Amar",
+      "lastname": "Parsad",
+      "type": "Brother",
+      "address": "Pavta",
+      "city": "Ajmer",
+      "state": "Rajasthan",
+      "zip": "142016",
+      "number": "9636718081",
+      "email": "amar@gmail.com",
+      "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 6
+      },
+      "id": 2
     }
-   
   ]
 }
