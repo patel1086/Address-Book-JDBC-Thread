@@ -1,0 +1,22 @@
+{
+  "contacts": [
+    {
+      "id": 1,
+      "firstname": "David",
+      "lastname": "Milar",
+      "type":"brother",
+      "address":"Rayta Nagar",
+      "city":"Udaipur",
+      "state":"Rajasthan",
+      "zip":"234567",
+      "number":"9636638082",
+      "email":"david@gmail.com",
+      "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 5
+      }
+    }
+   
+  ]
+}

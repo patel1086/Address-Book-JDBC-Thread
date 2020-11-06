@@ -7,6 +7,21 @@ import java.util.List;
 import java.util.Map;
 
 public class ContactService {
+	
+	public ArrayList<Contact> contactList;
+
+	public ContactService(ArrayList<Contact> arrayList) {
+		this();
+		this.contactList=arrayList;
+	}
+	
+	public enum IOService {
+		CONSOLE_IO, FILE_IO, DB_IO, REST_IO
+	}
+
+	public ContactService() {
+		
+	}
 
 	public List<Contact> readData() {
 		return new ContactDBService().readData();
@@ -110,6 +125,12 @@ public class ContactService {
 		return contactList.get(0).firstname
 				.equals(contactDBService.getContactData(firstname).get(0).firstname);
 		
+	}
+
+	public long countEntries(IOService iOService) {
+		if(iOService.equals(IOService.REST_IO))
+			return contactList.size();
+		return 0;
 	}
 
 }

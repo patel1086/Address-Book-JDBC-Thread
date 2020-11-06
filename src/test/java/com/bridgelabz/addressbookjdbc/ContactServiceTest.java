@@ -8,7 +8,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+
+import com.google.gson.Gson;
+
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 
 
 public class ContactServiceTest {
@@ -116,6 +122,29 @@ public class ContactServiceTest {
 			Thread thread = new Thread(task, contact.firstname);
 			thread.start();
 		});
+	}
+	
+	@Before
+	public void setUp() {
+		RestAssured.baseURI = "http://localhost";
+		RestAssured.port = 3000;
+	}
+	
+	public Contact[] getContactList() {
+		Response response = RestAssured.get("/contacts");
+		System.out.println("AddressBook Contact Details " + response.asString());
+		Contact[] arrayOfContacts = new Gson().fromJson(response.asString(), Contact[].class);
+		return arrayOfContacts;
+	}
+	
+	@Test
+	public void giveEmployeeDataInJSONServer_WhenRetrieved_ShouldMatchTheCount() {
+		Contact[] arrayOfContacts = getContactList();
+		ContactService employeePayrollService;
+		employeePayrollService = new ContactService(
+				new ArrayList<Contact>(Arrays.asList(arrayOfContacts)));
+		long entries = employeePayrollService.countEntries(ContactService.IOService.REST_IO);
+		Assert.assertEquals(1, entries);
 	}
 
 }
