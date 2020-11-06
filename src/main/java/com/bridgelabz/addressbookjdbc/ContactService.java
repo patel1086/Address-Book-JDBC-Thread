@@ -35,6 +35,7 @@ public class ContactService {
 		return new ContactDBService().findContactUsingPreparedByCityName(city);
 	}
 
+	//Method to update city name by first name for JDBC and Json server both
 	public void updateCityByFirstName(String name, String city, IOService ioService) {
 		if (ioService.equals(IOService.DB_IO)) {
 			int result = new ContactDBService().updateCityByFirstName(name, city);
@@ -46,11 +47,13 @@ public class ContactService {
 			contact.city = city;
 	}
 
+	//Method to get contact data
 	public Contact getContactData(String name) {
 		return this.contactList.stream().filter(contactData -> contactData.firstname.equals(name)).findFirst()
 				.orElse(null);
 	}
 
+	//Method to update city name using first name by preparedstatement in JDBC
 	public int updateCityByFirstNameUsingPrepared(String name, String city) {
 		return new ContactDBService().updateCityByFirstNameUsingPrepared(name, city);
 	}
@@ -59,10 +62,12 @@ public class ContactService {
 		return new ContactDBService().getContactBetweenDateRange(date1, date2);
 	}
 
+	//Method to get total contact details b/w two date from Database (JDBC)
 	public List<Contact> getContactBetweenDateRangeUsingPrepared(String date1, String date2) {
 		return new ContactDBService().getContactBetweenDateRange(date1, date2);
 	}
 
+	//Method to add list of contact details
 	public void addContact(List<Contact> contactList) {
 		contactList.forEach(contact -> {
 			this.addContact(contact.firstname, contact.lastname, contact.type, contact.address, contact.city,
@@ -71,11 +76,13 @@ public class ContactService {
 
 	}
 
+	//Method to add contact details in Database (JDBC)
 	private void addContact(String firstname, String lastname, String type, String address, String city, String state,
 			String zip, String number, String email, LocalDate date) {
 		new ContactDBService().addContact(firstname, lastname, type, address, city, state, zip, number, email, date);
 	}
 
+	//Method to count total entries in DataBase (JDBC)
 	public int countEntries() {
 		List<Contact> contactList = new ArrayList<>();
 		contactList = new ContactDBService().readData();
@@ -83,6 +90,7 @@ public class ContactService {
 
 	}
 
+	//Method to add contacts details using thread
 	public void addContactWithThreads(List<Contact> contactList) {
 		Map<Integer, Boolean> contactAdditionStatus = new HashMap<>();
 		contactList.forEach(contact -> {
@@ -105,6 +113,7 @@ public class ContactService {
 		}
 	}
 
+	//Method to update contact details using thread
 	public void updateContactWithThreads(List<Contact> contactList) {
 		Map<Integer, Boolean> contactUpdateStatus = new HashMap<>();
 		contactList.forEach(contact -> {
@@ -128,12 +137,14 @@ public class ContactService {
 
 	}
 
+	//Method to update city by contact's first name
 	public int updateCityByFirstName(String name, String city) {
 		return new ContactDBService().updateCityByFirstName(name, city);
 
 	}
 
-	public boolean checkEmployeePayrollInSyncWithDB(String firstname) {
+	//Method to check contact in sync with database
+	public boolean checkContactInSyncWithDB(String firstname) {
 		ContactDBService contactDBService = new ContactDBService();
 		List<Contact> contactList = new ArrayList<>();
 		contactList = contactDBService.getContactData(firstname);
@@ -141,12 +152,14 @@ public class ContactService {
 
 	}
 
+	//Method to count entries for Json File RestAssured API
 	public long countEntries(IOService iOService) {
 		if (iOService.equals(IOService.REST_IO))
 			return contactList.size();
 		return 0;
 	}
 
+	//Method to add contact in DB and contactList depend on IOService
 	public void addContact(Contact contact, IOService iOService) {
 		if (iOService.equals(IOService.DB_IO)) {
 			new ContactDBService().addContact(contact.firstname, contact.lastname, contact.type, contact.address,
@@ -155,6 +168,7 @@ public class ContactService {
 			contactList.add(contact);
 	}
 
+	//Method to delete or remote contact from contactList
 	public void deleteContact(String firstname) {
 		Contact contact = this.getContactData(firstname);
 		contactList.remove(contact);

@@ -18,15 +18,15 @@
       "id": 1
     },
     {
-      "firstname": "Amar",
-      "lastname": "Parsad",
-      "type": "Brother",
-      "address": "Pavta",
-      "city": "Ajmer",
+      "firstname": "Champak",
+      "lastname": "Lal",
+      "type": "Family",
+      "address": "Radhepur",
+      "city": "Banswara",
       "state": "Rajasthan",
-      "zip": "142016",
-      "number": "9636718081",
-      "email": "amar@gmail.com",
+      "zip": "175983",
+      "number": "9829998639",
+      "email": "champak@gmail.com",
       "date": {
         "year": 2020,
         "month": 11,
@@ -49,7 +49,7 @@
         "month": 11,
         "day": 6
       },
-      "id": 4
+      "id": 3
     },
     {
       "firstname": "Dhiraj",
@@ -66,7 +66,7 @@
         "month": 11,
         "day": 6
       },
-      "id": 5
+      "id": 4
     }
   ]
 }

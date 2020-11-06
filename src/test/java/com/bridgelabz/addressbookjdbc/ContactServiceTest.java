@@ -114,7 +114,7 @@ public class ContactServiceTest {
 		List<Contact> contactList = Arrays.asList(arrayOfContact);
 		contactList.forEach(contact -> {
 			Runnable task = () -> {
-				boolean result = contactService.checkEmployeePayrollInSyncWithDB(contact.firstname);
+				boolean result = contactService.checkContactInSyncWithDB(contact.firstname);
 				Assert.assertTrue(result);
 			};
 			Thread thread = new Thread(task, contact.firstname);
@@ -135,7 +135,7 @@ public class ContactServiceTest {
 		return arrayOfContacts;
 	}
 
-	private Response addEmployeeToJsonServer(Contact contact) {
+	private Response addContactToJsonServer(Contact contact) {
 		String empJson = new Gson().toJson(contact);
 		RequestSpecification request = RestAssured.given();
 		request.header("Content-Type", "application/json");
@@ -144,7 +144,7 @@ public class ContactServiceTest {
 	}
 
 	@Test
-	public void giveEmployeeDataInJSONServer_WhenRetrieved_ShouldMatchTheCount() {
+	public void giveContactDataInJSONServer_WhenRetrieved_ShouldMatchTheCount() {
 		Contact[] arrayOfContacts = getContactList();
 		ContactService employeePayrollService;
 		employeePayrollService = new ContactService(new ArrayList<Contact>(Arrays.asList(arrayOfContacts)));
@@ -153,12 +153,12 @@ public class ContactServiceTest {
 	}
 
 	@Test
-	public void givenNewEmployee_WhenAdded_ShouldMatch201ResponseAndCount() {
+	public void givenNewContact_WhenAdded_ShouldMatch201ResponseAndCount() {
 		Contact[] arrayOfContact = getContactList();
 		ContactService contactService;
 		contactService = new ContactService(new ArrayList<Contact>(Arrays.asList(arrayOfContact)));
 		Contact contact = new Contact("Amar", "Parsad", "Brother", "Pavta", "Ajmer", "Rajasthan", "142016","9636718081", "amar@gmail.com", LocalDate.now());
-		Response response = addEmployeeToJsonServer(contact);
+		Response response = addContactToJsonServer(contact);
 		int statusCode = response.getStatusCode();
 		Assert.assertEquals(201, statusCode);
 		contact = new Gson().fromJson(response.asString(), Contact.class);
@@ -168,7 +168,7 @@ public class ContactServiceTest {
 	}
 
 	@Test
-	public void givenMultipleEmployee_WhenAdded_ShouldMatch201ResponseAndCount() {
+	public void givenMultipleContact_WhenAdded_ShouldMatch201ResponseAndCount() {
 		Contact[] arrayOfContacts = getContactList();
 		ContactService contactService;
 		contactService = new ContactService(new ArrayList<Contact>(Arrays.asList(arrayOfContacts)));
@@ -177,14 +177,14 @@ public class ContactServiceTest {
 				new Contact("Bhanu", "Parsad", "Brother", "Suryanagar", "Bikaner", "Rajasthan", "163516", "9636373538","bhanu@gmail.com", LocalDate.now()),
 				new Contact("Dhiraj", "Kumar", "Family", "Avantika Nagar", "Dholpur", "Rajasthan", "187690","9414416789", "dhiraj@gmail.com", LocalDate.now()) };
 		for (Contact contact : arrayOfNewContacts) {
-			Response response = addEmployeeToJsonServer(contact);
+			Response response = addContactToJsonServer(contact);
 			int statusCode = response.getStatusCode();
 			Assert.assertEquals(201, statusCode);
 			contact = new Gson().fromJson(response.asString(), Contact.class);
 			contactService.addContact(contact, ContactService.IOService.REST_IO);
 		}
 		long entries = contactService.countEntries(ContactService.IOService.REST_IO);
-		Assert.assertEquals(5, entries);
+		Assert.assertEquals(4, entries);
 	}
 
 	@Test
