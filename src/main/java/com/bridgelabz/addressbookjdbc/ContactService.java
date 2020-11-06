@@ -2,7 +2,9 @@ package com.bridgelabz.addressbookjdbc;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ContactService {
 
@@ -53,6 +55,27 @@ public class ContactService {
 		contactList = new ContactDBService().readData();
 		return contactList.size();
 
+	}
+
+	public void addContactWithThreads(List<Contact> contactList) {
+		Map<Integer, Boolean> contactAdditionStatus = new HashMap<>();
+		contactList.forEach(contact->{
+			Runnable task=()->{
+				contactAdditionStatus.put(contact.hashCode(), false);
+				this.addContact(contact.firstname,contact.lastname,contact.type,contact.address,contact.city,contact.state,
+					contact.zip,contact.number,contact.email,contact.date);
+				contactAdditionStatus.put(contact.hashCode(), false);
+			};
+			Thread thread = new Thread(task, contact.firstname);
+			thread.start();
+		});
+		while (contactAdditionStatus.containsValue(false)) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+
+			}
+		}
 	}
 
 }
