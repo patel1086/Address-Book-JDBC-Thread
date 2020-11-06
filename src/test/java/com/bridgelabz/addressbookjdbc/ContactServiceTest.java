@@ -153,15 +153,15 @@ public class ContactServiceTest {
 		employeePayrollService = new ContactService(
 				new ArrayList<Contact>(Arrays.asList(arrayOfContacts)));
 		long entries = employeePayrollService.countEntries(ContactService.IOService.REST_IO);
-		Assert.assertEquals(1, entries);
+		Assert.assertEquals(5, entries);
 	}
 	
 	@Test
 	public void givenNewEmployee_WhenAdded_ShouldMatch201ResponseAndCount() {
-		Contact[] arrayOfEmps = getContactList();
+		Contact[] arrayOfContact = getContactList();
 		ContactService contactService;
 		contactService = new ContactService(
-				new ArrayList<Contact>(Arrays.asList(arrayOfEmps)));
+				new ArrayList<Contact>(Arrays.asList(arrayOfContact)));
 		Contact contact = new Contact("Amar","Parsad","Brother","Pavta","Ajmer","Rajasthan","142016","9636718081","amar@gmail.com",LocalDate.now());
 		Response response = addEmployeeToJsonServer(contact);
 		int statusCode = response.getStatusCode();
@@ -171,6 +171,27 @@ public class ContactServiceTest {
 		long entries = contactService.countEntries(ContactService.IOService.REST_IO);
 		Assert.assertEquals(2, entries);
 	}
+	
+	@Test
+	public void givenMultipleEmployee_WhenAdded_ShouldMatch201ResponseAndCount() {
+		Contact[] arrayOfContacts = getContactList();
+		ContactService contactService;
+		contactService = new ContactService(new ArrayList<Contact>(Arrays.asList(arrayOfContacts)));
+		Contact[] arrayOfNewContacts = {new Contact("Champak","Lal","Family","Radhepur","Banswara","Rajasthan","175983","9829998639","champak@gmail.com",LocalDate.now()),
+				new Contact("Bhanu","Parsad","Brother","Suryanagar","Bikaner","Rajasthan","163516","9636373538","bhanu@gmail.com",LocalDate.now()),
+				new Contact("Dhiraj","Kumar","Family","Avantika Nagar","Dholpur","Rajasthan","187690","9414416789","dhiraj@gmail.com",LocalDate.now())
+		};
+		for(Contact contact:arrayOfNewContacts) {
+			Response response = addEmployeeToJsonServer(contact);
+			int statusCode = response.getStatusCode();
+			Assert.assertEquals(201, statusCode);
+			contact = new Gson().fromJson(response.asString(), Contact.class);
+			contactService.addContact(contact, ContactService.IOService.REST_IO);
+		}
+		long entries = contactService.countEntries(ContactService.IOService.REST_IO);
+		Assert.assertEquals(5, entries);
+	}
+	
 
 	
 
