@@ -62,9 +62,11 @@ public class ContactService {
 		contactList.forEach(contact->{
 			Runnable task=()->{
 				contactAdditionStatus.put(contact.hashCode(), false);
+				System.out.println("Contact Being Added: " + Thread.currentThread().getName());
 				this.addContact(contact.firstname,contact.lastname,contact.type,contact.address,contact.city,contact.state,
 					contact.zip,contact.number,contact.email,contact.date);
-				contactAdditionStatus.put(contact.hashCode(), false);
+				contactAdditionStatus.put(contact.hashCode(), true);
+				System.out.println("Contact Being Added: " + Thread.currentThread().getName());
 			};
 			Thread thread = new Thread(task, contact.firstname);
 			thread.start();
